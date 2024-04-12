@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_app/pages/home_page.dart';
+import 'package:fusion_app/themes/light_theme.dart';
 
 class FABBottomNavigationBarItem {
   FABBottomNavigationBarItem({required this.iconData, required this.text, required this.style});
@@ -11,11 +12,32 @@ class FABBottomNavigationBarItem {
 class FABBottomNavigationBar extends StatefulWidget {
 
   final List<FABBottomNavigationBarItem> items = [
-    FABBottomNavigationBarItem(text: 'Главная', iconData: Icons.home_outlined, style: TextStyle(decoration: TextDecoration.underline)),
-    FABBottomNavigationBarItem(text: 'Заказать', iconData: Icons.menu_book_outlined, style: TextStyle(decoration: TextDecoration.none)),
-    FABBottomNavigationBarItem(text: 'Корзина', iconData: Icons.shopping_cart_outlined, style: TextStyle(decoration: TextDecoration.none)),
-    FABBottomNavigationBarItem(text: 'Профиль', iconData: Icons.person_outlined, style: TextStyle(decoration: TextDecoration.none)),
+    FABBottomNavigationBarItem(
+        text: 'Главная',
+        iconData: Icons.home_outlined,
+        style: TextStyle(decoration: TextDecoration.underline)
+    ),
+    FABBottomNavigationBarItem(
+        text: 'Заказать',
+        iconData: Icons.menu_sharp,
+        style: TextStyle(decoration: TextDecoration.none)
+    ),
+    FABBottomNavigationBarItem(
+        text: 'Корзина',
+        iconData: Icons.shopping_cart_outlined,
+        style: TextStyle(decoration: TextDecoration.none)
+    ),
+    FABBottomNavigationBarItem(
+        text: 'Профиль',
+        iconData: Icons.person_outlined,
+        style: TextStyle(decoration: TextDecoration.none)
+    ),
   ];
+
+  final ButtonStyle _buttonStyle = ButtonStyle(
+    shape: const MaterialStatePropertyAll(CircleBorder()),
+    foregroundColor: MaterialStatePropertyAll<Color>(lightMode.colorScheme.onPrimaryContainer),
+  );
 
   FABBottomNavigationBar({super.key});
 
@@ -36,12 +58,16 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
   
   _updateIndex(int index) {
     setState(() {
-      widget.items[_selectedIndex].style = TextStyle(decoration: TextDecoration.none);
-      widget.items[index].style = TextStyle(decoration: TextDecoration.underline);
+      widget.items[_selectedIndex].style = TextStyle(
+          decoration: TextDecoration.none,
+          color: lightMode.colorScheme.onPrimaryContainer);
+      widget.items[index].style = TextStyle(
+          decoration: TextDecoration.underline,
+          color: lightMode.colorScheme.onPrimaryContainer);
       _selectedIndex = index;
     });
   }
-  
+  // TODO: Wrap GestureDetector child in Container
 
   @override
   Widget build(BuildContext context) {
@@ -58,41 +84,53 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
         child: const Icon(Icons.qr_code_outlined),
       ),
       bottomNavigationBar: BottomAppBar(
+        height: 90,
         shape: CircularNotchedRectangle(),
         color: theme.colorScheme.primaryContainer,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            GestureDetector(
-              onTap: ()  {_updateIndex(0);},
-              child: Column(
-                children:[
-                  Icon(widget.items[0].iconData),
-                  Text(widget.items[0].text, style: widget.items[0].style)]
-              ),
+            TextButton(
+                onPressed: () {_updateIndex(0);},
+                style: widget._buttonStyle,
+                child: Column(
+                    children: [
+                      Icon(widget.items[0].iconData),
+                      Text(widget.items[0].text, style: widget.items[0].style)
+                    ]
+                )
             ),
-            GestureDetector(
-              onTap: () => {_updateIndex(1)},
-              child: Column(
-                  children:[Icon(widget.items[1].iconData),
-                    Text(widget.items[1].text, style: widget.items[1].style)]
-              ),
+            TextButton(
+                onPressed: () {_updateIndex(1);},
+                style: widget._buttonStyle,
+                child: Column(
+                    children: [
+                      Icon(widget.items[1].iconData),
+                      Text(widget.items[1].text, style: widget.items[1].style)
+                    ]
+                )
             ),
-            GestureDetector(
-              onTap: () => {_updateIndex(2)},
-              child: Column(
-                  children:[Icon(widget.items[2].iconData),
-                    Text(widget.items[2].text, style: widget.items[2].style)]
-              ),
+            TextButton(
+                onPressed: () {_updateIndex(2);},
+                style: widget._buttonStyle,
+                child: Column(
+                    children: [
+                      Icon(widget.items[2].iconData),
+                      Text(widget.items[2].text, style: widget.items[2].style)
+                    ]
+                )
             ),
-            GestureDetector(
-              onTap: () => {_updateIndex(3)},
-              child: Column(
-                  children:[Icon(widget.items[3].iconData),
-                    Text(widget.items[3].text, style: widget.items[3].style)]
-              ),
-            )
+            TextButton(
+                onPressed: () {_updateIndex(3);},
+                style: widget._buttonStyle,
+                child: Column(
+                    children: [
+                      Icon(widget.items[3].iconData,),
+                      Text(widget.items[3].text, style: widget.items[3].style)
+                    ]
+                )
+            ),
           ],
         ),
       ),

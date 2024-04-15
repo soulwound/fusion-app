@@ -67,13 +67,13 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
       _selectedIndex = index;
     });
   }
-  // TODO: Wrap GestureDetector child in Container
 
   @override
   Widget build(BuildContext context) {
     List<FABBottomNavigationBarItem> items = widget.items;
     final ThemeData theme = Theme.of(context);
     return Scaffold(
+      extendBody: true,
       body: _widgetOptions[_selectedIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -85,7 +85,7 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
       ),
       bottomNavigationBar: BottomAppBar(
         height: 90,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: theme.colorScheme.primaryContainer,
         child: Row(
           mainAxisSize: MainAxisSize.max,

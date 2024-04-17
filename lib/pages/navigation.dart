@@ -54,16 +54,21 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
     Text('Order'),
     Text('cart'),
     Text('profile'),
+    Text('QR Page')
   ];
   
   _updateIndex(int index) {
     setState(() {
-      widget.items[_selectedIndex].style = TextStyle(
-          decoration: TextDecoration.none,
-          color: lightMode.colorScheme.onPrimaryContainer);
-      widget.items[index].style = TextStyle(
-          decoration: TextDecoration.underline,
-          color: lightMode.colorScheme.onPrimaryContainer);
+      if(_selectedIndex != 4) {
+        widget.items[_selectedIndex].style = TextStyle(
+            decoration: TextDecoration.none,
+            color: lightMode.colorScheme.onPrimaryContainer);
+      }
+      if(index != 4) {
+        widget.items[index].style = TextStyle(
+            decoration: TextDecoration.underline,
+            color: lightMode.colorScheme.onPrimaryContainer);
+      }
       _selectedIndex = index;
     });
   }
@@ -77,7 +82,7 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
       body: _widgetOptions[_selectedIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
+        onPressed: () { _updateIndex(4); },
         backgroundColor: theme.colorScheme.primary,
         shape: const CircleBorder(),
         elevation: 2,

@@ -208,9 +208,21 @@ class NewsNavigation extends StatefulWidget {
 
 class NewsNavigationState extends State<NewsNavigation> with SingleTickerProviderStateMixin {
 
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Новости'),
-    Tab(text: 'Акции'),
+  static List<Tab> myTabs = <Tab>[
+    Tab(
+        child: Container(
+          alignment: AlignmentDirectional.center,
+          width: double.infinity,
+          child: Text('Новости')
+        )
+    ),
+    Tab(
+        child: Container(
+            alignment: AlignmentDirectional.center,
+            width: double.infinity,
+            child: Text('Акции')
+        )
+    ),
   ];
 
   late TabController _tabController;
@@ -230,15 +242,27 @@ class NewsNavigationState extends State<NewsNavigation> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TabBar(
-        indicator: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: lightMode.colorScheme.primary
+      backgroundColor: lightMode.colorScheme.primaryContainer,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: ClipRRect(
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.circular(15),
+          child: Container(
+            color: lightMode.colorScheme.background,
+            child: TabBar(
+              labelPadding: EdgeInsets.symmetric(vertical: 4),
+              indicator: BoxDecoration(
+                // borderRadius: BorderRadius.circular(25.0),
+                color: lightMode.colorScheme.primary
+              ),
+              labelColor: lightMode.colorScheme.onPrimaryContainer,
+              unselectedLabelColor: lightMode.colorScheme.onPrimaryContainer,
+              tabs: myTabs,
+              controller: _tabController,
+            ),
+          ),
         ),
-        labelColor: lightMode.colorScheme.onPrimaryContainer,
-        unselectedLabelColor: lightMode.colorScheme.onPrimaryContainer,
-        tabs: myTabs,
-        controller: _tabController,
       ),
       body: Container(
         decoration: BoxDecoration(

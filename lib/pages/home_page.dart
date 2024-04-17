@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_app/themes/light_theme.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class HomePage extends StatelessWidget{
 
@@ -10,8 +11,6 @@ class HomePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Фиксит баг внизу у кнопки QR, но цвет остального придется менять
-      // backgroundColor: lightMode.colorScheme.primaryContainer,
       body: ListView(
         children: [
           ListTile(
@@ -70,10 +69,28 @@ class QRMenuState extends State<QRMenu>{
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Image(
+            child: Container(
+              decoration: BoxDecoration(
+                color: lightMode.colorScheme.background,
+                borderRadius: BorderRadius.circular(20)
+              ),
+              width: constraints.maxWidth/2.2,
+              child: QrImageView(
+                dataModuleStyle: QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                    color: lightMode.colorScheme.secondary
+                ),
+                eyeStyle: QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: lightMode.colorScheme.secondary
+                ),
+                data: '+79216108710',
+              )
+            ),
+            /*child: Image(
               image: AssetImage('assets/images/fusion-logo.png'),
               width: constraints.maxWidth / 2.2,
-            ),
+            ),*/
           ),
         ],
       );
@@ -86,7 +103,7 @@ class QRMenuState extends State<QRMenu>{
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Image(
               image: AssetImage('assets/images/fusion-logo.png'),
               width: constraints.maxWidth / 3,
@@ -94,9 +111,23 @@ class QRMenuState extends State<QRMenu>{
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Image(
-              image: AssetImage('assets/images/fusion-logo.png'),
-              width: constraints.maxWidth / 2.2,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: lightMode.colorScheme.background,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              width: constraints.maxWidth / 1.5,
+              child: QrImageView(
+                dataModuleStyle: QrDataModuleStyle(
+                    dataModuleShape: QrDataModuleShape.square,
+                    color: lightMode.colorScheme.secondary
+                ),
+                eyeStyle: QrEyeStyle(
+                    eyeShape: QrEyeShape.square,
+                    color: lightMode.colorScheme.secondary
+                ),
+                data: '+79216108710',
+              ),
             ),
           ),
         ],
@@ -111,7 +142,7 @@ class QRMenuState extends State<QRMenu>{
       padding: const EdgeInsets.all(20.0),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20),
             color: lightMode.colorScheme.primary
         ),
         child: TextButton(

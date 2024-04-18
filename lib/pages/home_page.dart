@@ -4,9 +4,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class HomePage extends StatelessWidget{
 
-  HomePage({super.key});
+  const HomePage({super.key});
 
-  bool isQRMenuExpanded = false;
+  final bool isQRMenuExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget{
               ),
             ),
           ),
-          QRMenu(),
+          const QRMenu(),
           BallBalance(balance:12),
           NewsBlock()
         ],

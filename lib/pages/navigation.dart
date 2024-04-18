@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion_app/pages/home_page.dart';
 import 'package:fusion_app/pages/qr_page.dart';
 import 'package:fusion_app/themes/light_theme.dart';
+import 'package:fusion_app/pages/profile_page.dart';
 
 class FABBottomNavigationBarItem {
   FABBottomNavigationBarItem({required this.iconData, required this.text, required this.style});
@@ -54,7 +55,7 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
     HomePage(),
     Text('Order'),
     Text('cart'),
-    Text('profile'),
+    ProfilePage(),
     QrPage()
   ];
   

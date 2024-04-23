@@ -4,6 +4,8 @@ import 'package:fusion_app/pages/qr_page.dart';
 import 'package:fusion_app/themes/light_theme.dart';
 import 'package:fusion_app/pages/profile_page.dart';
 
+import 'order_page.dart';
+
 class FABBottomNavigationBarItem {
   FABBottomNavigationBarItem({required this.iconData, required this.text, required this.style});
   IconData iconData;
@@ -53,7 +55,7 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = [
     HomePage(),
-    Text('Order'),
+    OrderPage(),
     Text('cart'),
     ProfilePage(),
     QrPage()
@@ -109,7 +111,15 @@ class _FABBottomNavigationBarState extends State<FABBottomNavigationBar> {
                 )
             ),
             TextButton(
-                onPressed: () {_updateIndex(1);},
+                //onPressed: () {_updateIndex(1);},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderPage()
+                    )
+                );
+              },
                 style: widget._buttonStyle,
                 child: Column(
                     children: [

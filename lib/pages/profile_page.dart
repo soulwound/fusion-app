@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:fusion_app/pages/home_page.dart';
 import 'package:fusion_app/themes/light_theme.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
 
-  const ProfilePage({super.key});
+  final Uri termsOfUseUrl = Uri.parse('https://app.loyalhub.ru/FusionExpress/terms_of_service/');
+
+  Future<void> openUrl(Uri urlString) async {
+    launchUrl(urlString);
+    /* if (await canLaunchUrl(urlString)) { // Check if the URL can be launched
+      await launchUrl(urlString);
+    } else {
+      throw 'Could not launch $urlString'; // throw could be used to handle erroneous situations
+    } */
+  }
+
+  ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +26,11 @@ class ProfilePage extends StatelessWidget {
             title: Text('Виктор'),
             subtitle: Text('+7(921)610-87-10'),
             leading: Container(
-              child: Icon(Icons.person_outline, size: 60),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: lightMode.colorScheme.primaryContainer
               ),
+              child: Icon(Icons.person_outline, size: 60),
             ),
           ),
           ListTile(
@@ -55,6 +65,10 @@ class ProfilePage extends StatelessWidget {
             leading: Icon(Icons.exit_to_app_rounded),
             onTap: () {},
           ),
+          TextButton(
+              onPressed:() {}, //openUrl(termsOfUseUrl),
+              child: Text('Условия пользования')
+          )
         ],
       ),
     );
@@ -85,7 +99,7 @@ class UserDataPage extends StatelessWidget{
               children: [
                 UserDataGenderRadio(),
               ],
-            )
+            ),
           ],
         ),
       ),

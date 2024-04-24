@@ -59,7 +59,6 @@ class ProductCategory extends StatelessWidget {
         future: getData(categoryTitle),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data!.docs.length % 2 == 0) {
               return GridView.count(
                 childAspectRatio: 0.7,
                 shrinkWrap: true,
@@ -69,9 +68,8 @@ class ProductCategory extends StatelessWidget {
                   }
                   ).toList()
               );
-            }
           }
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator(),);
         }
     );
   }

@@ -28,9 +28,11 @@ class OrderPageState extends State<OrderPage> {
 }
 
 class ItemsMenu extends StatelessWidget {
+  const ItemsMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return ListView(
       children: [
         ProductCategory(categoryTitle: 'chicken',),
       ],
@@ -57,12 +59,81 @@ class ProductCategory extends StatelessWidget {
         future: getData(categoryTitle),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Column(
-              children: []
-            );
+            if (snapshot.data!.docs.length % 2 == 0) {
+              return GridView.count(
+                childAspectRatio: 0.7,
+                shrinkWrap: true,
+                  crossAxisCount: 2,
+                  children: snapshot.data!.docs.map((element) {
+                    return MenuItem(doc: element);
+                  }
+                  ).toList()
+              );
+            }
           }
           return CircularProgressIndicator();
         }
     );
   }
+}
+
+class MenuItem extends StatefulWidget {
+  final QueryDocumentSnapshot<Map<String, dynamic>> doc;
+  const MenuItem({super.key, required this.doc});
+
+  @override
+  State<StatefulWidget> createState() => MenuItemState();
+
+}
+
+class MenuItemState extends State<MenuItem> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 500,
+      child: Card(
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        //clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: lightMode.colorScheme.primary
+                  ),
+                  child: Image.network(widget.doc['image']),
+                  ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    widget.doc['title'],
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400
+                    ),
+                  )
+              ),
+              Container(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    '${widget.doc['nutritional-value-per-100-g'].toString()} ккал',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300
+                    ),
+                  )
+              ),
+            ],
+        ),
+      ),
+    );
+  }
+
 }

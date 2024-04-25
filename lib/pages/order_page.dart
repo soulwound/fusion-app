@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_app/pages/product_page.dart';
 import 'package:fusion_app/themes/light_theme.dart';
 
 class OrderPage extends StatefulWidget {
@@ -109,7 +110,7 @@ class MenuItemState extends State<MenuItem> {
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(
-                  builder: (context) => Text(this.title)
+                  builder: (context) => ProductPage(productData: widget.doc)
                 )
             );
           },

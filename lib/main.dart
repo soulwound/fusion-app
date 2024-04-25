@@ -13,17 +13,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getData() async {
-    await Firebase.initializeApp();
-    return await FirebaseFirestore.instance
-        .collection("product/chicken/chicken")
-        .get();
-  }
-  // var data = await getData();
-  var snapshot = await getData();
-  var docs = snapshot.docs;
-  docs.forEach((element) { print(element['title']); });
   runApp(const MyApp());
 }
 

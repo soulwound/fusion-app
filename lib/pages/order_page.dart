@@ -85,8 +85,17 @@ class MenuItem extends StatefulWidget {
 }
 
 class MenuItemState extends State<MenuItem> {
+  late String image;
+  late String title;
+  late String nutritionalValue;
+  late int cost;
+
   @override
   Widget build(BuildContext context) {
+    image = widget.doc['image'];
+    title = widget.doc['title'];
+    nutritionalValue = widget.doc['nutritional-value-per-100-g'].toString();
+    cost = widget.doc['cost'];
     return SizedBox(
       height: 500,
       child: Card(
@@ -96,39 +105,58 @@ class MenuItemState extends State<MenuItem> {
           borderRadius: BorderRadius.circular(10)
         ),
         //clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: lightMode.colorScheme.primary
-                  ),
-                  child: Image.network(widget.doc['image']),
-                  ),
-              ),
-              Container(
-                padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    widget.doc['title'],
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => Text(this.title)
+                )
+            );
+          },
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: lightMode.colorScheme.secondaryContainer
                     ),
-                  )
-              ),
-              Container(
+                    child: Image.network(image),
+                    ),
+                ),
+                Container(
+                  height: 60,
                   padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    '${widget.doc['nutritional-value-per-100-g'].toString()} ккал',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400
+                      ),
+                    )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          '$nutritionalValue ккал',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300
+                          ),
+                        )
                     ),
-                  )
-              ),
-            ],
+                    TextButton(
+                        onPressed: () {},
+                        child: Text('$cost₽')
+                    )
+                  ],
+                ),
+              ],
+          ),
         ),
       ),
     );

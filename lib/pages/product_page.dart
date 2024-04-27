@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_app/themes/light_theme.dart';
 
@@ -107,6 +108,10 @@ class ProductInfo extends StatelessWidget {
               ],
             ),
           ),
+          productData['have-side-dish']?Container(
+            height: 300,
+            child: SideDishMenu()
+          ):Container()
         ],
       ),
     );
@@ -199,3 +204,70 @@ class ProductOrderBarState extends State<ProductOrderBar> {
   }
 
 }
+
+class SideDishMenu extends StatefulWidget {
+  const SideDishMenu({super.key});
+
+  @override
+  State<StatefulWidget> createState() => SideDishMenuState();
+
+}
+
+class SideDishMenuState extends State<SideDishMenu> {
+
+  int selected = 0;
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getData() async {
+    await Firebase.initializeApp();
+    return await FirebaseFirestore.instance
+        .collection('product/side-dish/side-dish')
+        .get();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done){
+            return ListView.builder(
+                // shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String title = snapshot.data!.docs.elementAt(index)['title'];
+                  var image = snapshot.data!.docs.elementAt(index)['image'];
+                  int weight = snapshot.data!.docs.elementAt(index)['weight'];
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width/2,
+                    child: RadioListTile(
+                      selectedTileColor: lightMode.colorScheme.primary,
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Image.network(image),
+                          ),
+                          Text(title),
+                          Text('$weightг'),
+                        ],
+                      ),
+                      value: index,
+                      groupValue: selected,
+                      onChanged: (value) {
+                        setState(() {
+                          selected = value!;
+                        });
+                      },
+                    ),
+                  );
+                }
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        }
+    );
+  }
+
+}
+

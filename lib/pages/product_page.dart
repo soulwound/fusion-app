@@ -224,6 +224,35 @@ class SideDishMenuState extends State<SideDishMenu> {
         .get();
   }
 
+  Widget customRadioButton(String title, String image, int weight, int value) {
+    var outlineColor = selected==value?
+      lightMode.colorScheme.primary : lightMode.colorScheme.onPrimaryContainer;
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: outlineColor),
+        borderRadius: BorderRadius.circular(15)
+      ),
+      margin: EdgeInsets.only(right: 20),
+      padding: EdgeInsets.only(top: 20),
+      child: TextButton(
+          onPressed: () {
+            setState(() {
+              selected = value;
+            });
+          },
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(image),
+              Text(title),
+              Text('$weightг')
+            ],
+          )
+      ),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -231,35 +260,15 @@ class SideDishMenuState extends State<SideDishMenu> {
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done){
             return ListView.builder(
-                // shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   String title = snapshot.data!.docs.elementAt(index)['title'];
-                  var image = snapshot.data!.docs.elementAt(index)['image'];
+                  String image = snapshot.data!.docs.elementAt(index)['image'];
                   int weight = snapshot.data!.docs.elementAt(index)['weight'];
                   return SizedBox(
                     width: MediaQuery.of(context).size.width/2,
-                    child: RadioListTile(
-                      selectedTileColor: lightMode.colorScheme.primary,
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Image.network(image),
-                          ),
-                          Text(title),
-                          Text('$weightг'),
-                        ],
-                      ),
-                      value: index,
-                      groupValue: selected,
-                      onChanged: (value) {
-                        setState(() {
-                          selected = value!;
-                        });
-                      },
-                    ),
+                    child: customRadioButton(title, image, weight, index),
                   );
                 }
             );
